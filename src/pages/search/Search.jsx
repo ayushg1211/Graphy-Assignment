@@ -11,6 +11,7 @@ const Search = () => {
   const [error, setError] = useState("");
   const [usersPerPage, setUsersPerPage] = useState(15);
   const [page, setPage] = useState(1);
+  const [totalSearchResults, setTotalSearchResults] = useState(0) ;
 
   async function getUserList(searchQuery, page) {
     if (!searchQuery) {
@@ -34,8 +35,10 @@ const Search = () => {
       );
       let users = response.data;
       console.log(users);
+      setTotalSearchResults(users.total_count) ;
       setUserlist(users.items);
       setExists(users.items.length > 0);
+      // setPage(1) ;
     } 
     
     catch (err) {
@@ -82,7 +85,7 @@ const Search = () => {
         <button
           type="button"
           className={styles.searchButton}
-          onClick={() => getUserList(username)}
+          onClick={() => {getUserList(username) ; setPage(1) }}
         >
           Search
         </button>
@@ -132,9 +135,9 @@ const Search = () => {
           Prev
         </button>
 
-        <span>Page {page}</span>
+        <span>Page {page} of {Math.ceil(totalSearchResults/usersPerPage)}</span>
 
-        <button onClick={() => handlePageChange(page + 1)} disabled={userList.length < usersPerPage}>Next</button>
+        <button onClick={() => handlePageChange(page + 1)} disabled={page === Math.ceil(totalSearchResults/usersPerPage)}>Next</button>
       </section>
 }
     </section>

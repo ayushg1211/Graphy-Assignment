@@ -81,7 +81,7 @@ const Profile = () => {
       {
         // Pagination
         repos?.length < reposPerPage && page < 2 ? "":
-         <Pagination page={page} setPage={setPage} length={repos.length} reposPerPage={reposPerPage}/>
+         <Pagination page={page} setPage={setPage} reposPerPage={reposPerPage} totalRepos={user.public_repos}/>
       }
       
 

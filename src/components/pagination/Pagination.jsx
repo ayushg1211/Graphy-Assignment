@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "./Pagination.module.css"
 
-const Pagination = ({page, setPage, length, reposPerPage}) => {
+const Pagination = ({page, setPage, reposPerPage, totalRepos}) => {
   return (
     <section className={styles.pagination}>
               <button
@@ -11,9 +11,9 @@ const Pagination = ({page, setPage, length, reposPerPage}) => {
                 Prev
               </button>
       
-              <span>Page {page}</span>
+              <span>Page {page} of {Math.ceil(totalRepos/reposPerPage)}</span>
       
-              <button onClick={() => setPage(page + 1)} disabled={length < reposPerPage}>Next</button>
+              <button onClick={() => setPage(page + 1)} disabled={page === Math.ceil(totalRepos/reposPerPage)}>Next</button>
     </section>
   )
 }
