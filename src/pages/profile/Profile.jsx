@@ -28,12 +28,8 @@ const Profile = () => {
         );
         setUser(userResponse.data);
 
-        // Fetching the public repos of the user
-        const reposResponse = await Axios.get(
-          `https://api.github.com/users/${username}/repos?page=${page}&per_page=${reposPerPage}`
-        );
-        setEmpty(reposResponse.data.length > 0) ;
-        setRepos(reposResponse.data);
+         // Fetching the public repos of the user
+       
       } 
       catch (err) {
         setError("User not found or API rate limit exceeded.");
@@ -45,8 +41,20 @@ const Profile = () => {
     }
 
     fetchData();
-  }, [username, page]);
+  }, []);
 
+  useEffect(()=>{
+    getRepos()
+  },[page])
+
+  
+  const getRepos= async ()=>{
+    const reposResponse = await Axios.get(
+      `https://api.github.com/users/${username}/repos?page=${page}&per_page=${reposPerPage}`
+    );
+    setEmpty(reposResponse.data.length > 0) ;
+    setRepos(reposResponse.data);
+  }
 
 
 // Error Display
