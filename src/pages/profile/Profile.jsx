@@ -11,6 +11,7 @@ const Profile = () => {
   const [error, setError] = useState("");
   const [reposPerPage, setReposPerPage] = useState(10) ;
   const [page, setPage] = useState(1) ;
+  const [empty, setEmpty] = useState(true) ;
 
   useEffect(() => {
     async function fetchData() {
@@ -29,10 +30,14 @@ const Profile = () => {
         const reposResponse = await Axios.get(
           `https://api.github.com/users/${username}/repos?page=${page}&per_page=${reposPerPage}`
         );
+        setEmpty(reposResponse.data.length > 0) ;
         setRepos(reposResponse.data);
-      } catch (err) {
+      } 
+      catch (err) {
         setError("User not found or API rate limit exceeded.");
-      } finally {
+        setExists(false);
+      } 
+      finally {
         setLoading(false);
       }
     }
@@ -40,9 +45,10 @@ const Profile = () => {
     fetchData();
   }, [username, page]);
 
+
+
+// Error Display
   if (error) return <p className={styles.error}>{error}</p>;
-
-
 
   return (
     <section className={styles.profileContainer}>
@@ -67,6 +73,9 @@ const Profile = () => {
       )}
 
       <h3 className={styles.repoHeading}>Repositories</h3>
+      
+      {!empty && <p className={styles.noUser}>No repositories found.</p>}
+
       <ul className={styles.repoList}>
         {repos.length > 0 ? (
           repos.map((repo) => (
@@ -80,7 +89,7 @@ const Profile = () => {
                 {repo.name}
               </a>
               <p className={styles.repoDesc}>
-                {repo.description
+                {repo.description  // Display Description with length 80-100 characters
                   ? repo.description.length > 100
                     ? `${repo.description.substring(0, 80)}...`
                     : repo.description
@@ -92,11 +101,12 @@ const Profile = () => {
             </li>
           ))
         ) : (
-          <p className={styles.noRepo}>No repositories found.</p>
+          ""
         )}
       </ul>
 
       {
+        // Pagination
         repos?.length < reposPerPage && page < 2 ? "":
       
             <section className={styles.pagination}>

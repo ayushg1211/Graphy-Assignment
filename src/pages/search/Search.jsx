@@ -36,20 +36,28 @@ const Search = () => {
       console.log(users);
       setUserlist(users.items);
       setExists(users.items.length > 0);
-    } catch (err) {
+    } 
+    
+    catch (err) {
       setError("Something went wrong while fetching users");
       console.log(err);
       setUserlist([]);
       setExists(false);
-    } finally {
+    } 
+    
+    finally {
       setLoading(false);
     }
+
   }
 
+// Input field change
   const handleInputChange = (e) => {
     setUsername(e.target.value);
   };
 
+
+// Page change and API call for new page users
   const handlePageChange = (newPage) => {
     setPage(newPage);
     getUserList(username, newPage); // Fetch new page
@@ -57,7 +65,7 @@ const Search = () => {
 
   return (
     <section className={styles.searchContainer}>
-      <div className={styles.inputContainer}>
+      <section className={styles.inputContainer}>
         <input
           type="text"
           className={styles.inputField}
@@ -72,11 +80,12 @@ const Search = () => {
         >
           Search
         </button>
-      </div>
+      </section>
 
       {error && <p className={styles.error}>{error}</p>}
-      {!exist && <p className={styles.noUser}>No Such user exists publicly</p>}
+      {!exist && <p className={styles.noUser}>No Such user exists publically</p>}
 
+    {/* List od users publically exists */}
       <ul className={styles.userList}>
         {isLoading ? (
           <p>Loading...</p>
@@ -101,8 +110,8 @@ const Search = () => {
       </ul>
 
 {
+  // Pagination
   userList?.length < usersPerPage && page < 2 ? "":
-
       <section className={styles.pagination}>
         <button
           onClick={() => handlePageChange(page - 1)}
