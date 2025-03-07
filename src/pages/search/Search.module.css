@@ -1,4 +1,9 @@
 /* Search.module.css */
+.heading{
+  margin-top: 1rem ;
+  text-align: center;
+}
+
 .searchContainer {
     display: flex;
     flex-direction: column;
@@ -106,6 +111,12 @@
     font-weight: bold;
     
   }
+
+  @media screen and (max-width:800px) {
+    .heading{
+        font-size: 26px;
+    }
+}
   
   @media screen and (max-width:600px) {
     .searchContainer {
@@ -137,4 +148,10 @@
         border-radius: 50%;
       }
   }
+
+  @media screen and (max-width:400px) {
+    .heading{
+        font-size: 20px;
+    }
+}
 

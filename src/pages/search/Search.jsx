@@ -5,7 +5,7 @@ import styles from "./Search.module.css";
 
 const Search = () => {
   const [username, setUsername] = useState("");
-  const [userList, setUserlist] = useState([]);
+  const [userList, setUserlist] = useState([]); // To Display Users
   const [isLoading, setLoading] = useState(false);
   const [exist, setExists] = useState(true);
   const [error, setError] = useState("");
@@ -56,15 +56,21 @@ const Search = () => {
     setUsername(e.target.value);
   };
 
-
 // Page change and API call for new page users
   const handlePageChange = (newPage) => {
     setPage(newPage);
     getUserList(username, newPage); // Fetch new page
   };
 
+
   return (
     <section className={styles.searchContainer}>
+
+
+      <h1 className={styles.heading}>Github API User Search</h1>
+
+
+
       <section className={styles.inputContainer}>
         <input
           type="text"
@@ -82,10 +88,14 @@ const Search = () => {
         </button>
       </section>
 
+
+
       {error && <p className={styles.error}>{error}</p>}
       {!exist && <p className={styles.noUser}>No Such user exists publically</p>}
 
-    {/* List od users publically exists */}
+
+
+    {/* List of users publically exists */}
       <ul className={styles.userList}>
         {isLoading ? (
           <p>Loading...</p>
@@ -108,6 +118,8 @@ const Search = () => {
           ))
         )}
       </ul>
+
+
 
 {
   // Pagination

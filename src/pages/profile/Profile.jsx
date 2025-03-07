@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import styles from "./Profile.module.css";
+import Repositories from "../../components/repositories/Repositories";
+import Pagination from "../../components/pagination/Pagination";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -9,9 +11,9 @@ const Profile = () => {
   const { uname: username } = useParams(); // Getting the username from URL
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [reposPerPage, setReposPerPage] = useState(10) ;
   const [page, setPage] = useState(1) ;
   const [empty, setEmpty] = useState(true) ;
+  const [reposPerPage, setReposPerPage] = useState(10) ;
 
   useEffect(() => {
     async function fetchData() {
@@ -72,56 +74,17 @@ const Profile = () => {
         )
       )}
 
-      <h3 className={styles.repoHeading}>Repositories</h3>
-      
       {!empty && <p className={styles.noUser}>No repositories found.</p>}
 
-      <ul className={styles.repoList}>
-        {repos.length > 0 ? (
-          repos.map((repo) => (
-            <li key={repo.id} className={styles.repoCard}>
-              <a
-                href={repo.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.repoName}
-              >
-                {repo.name}
-              </a>
-              <p className={styles.repoDesc}>
-                {repo.description  // Display Description with length 80-100 characters
-                  ? repo.description.length > 100
-                    ? `${repo.description.substring(0, 80)}...`
-                    : repo.description
-                  : "No description available"}
-              </p>
-              <p className={styles.repoStats}>
-                ⭐ {repo.stargazers_count} | 🍴 {repo.forks_count}
-              </p>
-            </li>
-          ))
-        ) : (
-          ""
-        )}
-      </ul>
-
+      <Repositories repos={repos} page={page} setPage={setPage} reposPerPage={reposPerPage}/>
+      
       {
         // Pagination
         repos?.length < reposPerPage && page < 2 ? "":
-      
-            <section className={styles.pagination}>
-              <button
-                onClick={() => setPage(page - 1)}
-                disabled={page === 1}
-              >
-                Prev
-              </button>
-      
-              <span>Page {page}</span>
-      
-              <button onClick={() => setPage(page + 1)} disabled={repos.length < reposPerPage}>Next</button>
-            </section>
+         <Pagination page={page} setPage={setPage} length={repos.length} reposPerPage={reposPerPage}/>
       }
+      
+
     </section>
   );
 };
