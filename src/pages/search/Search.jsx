@@ -91,7 +91,7 @@ const Search = () => {
 
 
       {error && <p className={styles.error}>{error}</p>}
-      {!exist && <p className={styles.noUser}>No Such user exists publically</p>}
+      {!exist && <p className={styles.noUser}>User Not Found</p>}
 
 
 
